@@ -1,4 +1,4 @@
-# next-level-front
+# next-level-frontend
 
 Project made following the [Next Level](https://nextlevelweek.com/) course.
 
