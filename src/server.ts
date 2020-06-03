@@ -1,19 +1,11 @@
 import express from 'express';
+import bodyParser from 'body-parser';
+import routes from './routes';
 import { logger } from './utils';
 
 const app = express();
-
-app.get('/users', (req, res) => {
-  logger.debug('Listagem de Usuário');
-  res.json([
-    'Teste 1',
-    'Teste 2',
-    'Teste 3',
-    'Teste 4',
-    'Teste 5',
-    'Teste 6',
-  ]);
-});
+app.use(bodyParser.json());
+app.use(routes);
 
 app.listen(process.env.PORT)
   .on('listening', () => {
