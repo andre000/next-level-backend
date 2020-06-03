@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "node bundler.dev.js",
-    "build": "parcel build -t node src/index.ts"
+    "build": "parcel build -t node src/server.ts"
   },
   "keywords": [
     "next-level"

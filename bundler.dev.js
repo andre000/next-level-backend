@@ -2,11 +2,11 @@ const Bundler = require('parcel-bundler');
 const Path = require('path');
 const nodemon = require('nodemon');
 
-const entryFiles = Path.join(__dirname, './src/index.ts');
+const entryFiles = Path.join(__dirname, './src/server.ts');
 
 const options = {
   outDir: './dist', // O diretório de saída para construir os arquivos, dist é o padrão
-  outFile: 'index.js', // O nome do arquivo de saída
+  outFile: 'server.js', // O nome do arquivo de saída
   watch: true, // whether to watch the files and rebuild them on change, defaults to process.env.NODE_ENV !== 'production'
   cache: true, // Habilita ou desabilita o cache, true é o padrão
   cacheDir: '.cache', // O diretório de cache a ser utilizado, .cache é o padrão
@@ -24,14 +24,14 @@ const options = {
   const bundler = new Bundler(entryFiles, options);
   await bundler.bundle();
 
+  process.env.NODE_ENV = 'development';
   nodemon({
-    script: 'dist/index.js',
+    script: 'dist/server.js',
     ext: 'js json'
   });
 
   nodemon
-    .on('start', () => console.log('\n', 'App has started'))
-    .on('restart', (files) => console.log('\n', 'App restarted due to: ', files.join('; '), '\n'))
+    .on('start', () => console.log('App iniciado!'))
     .on('quit', () => {
       console.log('App has quit');
       process.exit();
