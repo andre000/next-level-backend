@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "node bundler.dev.js",
     "build": "parcel build -t node src/server.ts",
-    "db:migrate": "knex migrate:latest --knexfile knexfile.ts migrate:latest",
-    "db:rollback": "knex migrate:rollback"
+    "db:migrate": "knex --knexfile knexfile.ts migrate:latest",
+    "db:rollback": "knex --knexfile knexfile.ts migrate:rollback",
+    "db:seed": "knex  --knexfile knexfile.ts seed:run"
   },
   "keywords": [
     "next-level"
