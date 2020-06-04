@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 declare type Point = {
   id?: number;
   image: string;
@@ -8,4 +9,11 @@ declare type Point = {
   longitude: string;
   city: string;
   uf: string;
+  items?: number[];
+}
+
+declare type PointItems = {
+  id?: number;
+  point_id: number;
+  item_id: number;
 }
