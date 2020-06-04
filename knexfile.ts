@@ -11,11 +11,15 @@ const {
   PGPORT,
 } = process.env;
 
-console.log(`postgresql://${PGUSER}:${PGPASSWORD}${PGHOST}:${PGPORT}/${PGDATABASE}`);
-
 module.exports = {
   client: 'pg',
-  connection: `postgresql://${PGUSER}:${PGPASSWORD}${PGHOST}:${PGPORT}/${PGDATABASE}`,
+  connection: {
+    host: PGHOST,
+    port: PGPORT,
+    user: PGUSER,
+    password: PGPASSWORD,
+    database: PGDATABASE,
+  },
   migrations: {
     directory: path.resolve(__dirname, 'src/database/migrations'),
   },

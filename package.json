@@ -5,7 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "dev": "node bundler.dev.js",
-    "build": "parcel build -t node src/server.ts"
+    "build": "parcel build -t node src/server.ts",
+    "db:migrate": "knex migrate:latest --knexfile knexfile.ts migrate:latest",
+    "db:rollback": "knex migrate:rollback"
   },
   "keywords": [
     "next-level"
