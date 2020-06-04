@@ -1,7 +1,7 @@
-import Knex from 'knex';
+import Knex, { SchemaBuilder } from 'knex';
 
-export function up(knex: Knex):void {
-  knex.schema.createTable('points', (table) => {
+export function up(knex: Knex):SchemaBuilder {
+  return knex.schema.createTable('points', (table) => {
     table.increments('id').unsigned().primary();
     table.string('image').notNullable();
     table.string('name').notNullable();
@@ -14,6 +14,6 @@ export function up(knex: Knex):void {
   });
 }
 
-export function down(knex: Knex):void {
-  knex.schema.dropTableIfExists('points');
+export function down(knex: Knex):SchemaBuilder {
+  return knex.schema.dropTableIfExists('points');
 }
