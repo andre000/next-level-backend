@@ -7,5 +7,5 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: root
-      POSTGRES_USER: root
-      POSTGRES_DB: next-level
+      POSTGRES_USER: postgres
+      POSTGRES_DB: next_level
