@@ -23,7 +23,11 @@ module.exports = {
   ],
   settings: {
     "import/resolver": {
-      typescript: {} // this loads <rootdir>/tsconfig.json to eslint
+      typescript: {}, // this loads <rootdir>/tsconfig.json to eslint
+      alias: {
+        map: [['~', './src']],
+        extensions: ['.ts', '.js', '.jsx', '.json'],
+      },
     },
   },
   rules: {
