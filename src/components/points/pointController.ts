@@ -12,6 +12,12 @@ export async function show(req: Request, res: Response): Promise<Response> {
   const { id } = req.params;
   const selectedPoint = await pointDAL.selectByID(Number(id));
 
+  if (!selectedPoint) {
+    return res
+      .status(404)
+      .json(<ComponentErrorMessage>{ message: 'Ponto não encontrado!', status: 'ERROR' });
+  }
+
   return res.json(selectedPoint);
 }
 
@@ -26,7 +32,9 @@ export async function index(req: Request, res: Response): Promise<Response> {
   };
 
   if (Object.keys(parsedQuery).length === 0) {
-    return res.status(400).json({ error: 'Invalid search parameters' });
+    return res
+      .status(400)
+      .json(<ComponentErrorMessage>{ message: 'Invalid search parameters', status: 'ERROR' });
   }
 
   const selectedPoints = await pointDAL.selectWithQuery(parsedQuery);

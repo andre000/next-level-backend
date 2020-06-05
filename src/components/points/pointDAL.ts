@@ -11,6 +11,8 @@ export default {
       .where('id', id)
       .first();
 
+    if (!points) return null;
+
     const items = await db<Item>('items')
       .select('items.*')
       .join('point_items', 'items.id', '=', 'point_items.item_id')
