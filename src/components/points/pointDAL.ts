@@ -1,5 +1,6 @@
 import db from '~/database/connection';
 import { logger } from '~/utils';
+import simpleQueryBuilder from '~/utils/simpleQueryBuilder';
 
 const table = 'points';
 
@@ -18,11 +19,15 @@ export default {
     return { ...points, items };
   },
 
-  async selectWithQuery(query: any): Promise<Point[]> {
-    const search = Object.entries(query);
+  async selectWithQuery(query: Record<string, unknown>): Promise<Point[]> {
     const points = await db<Point>(table)
-      .select('*')
-      .where(search);
+      .join('point_items', 'points.id', '=', 'point_items.point_id')
+      .select('points.*')
+      .where((builder) => {
+        simpleQueryBuilder(query, builder);
+        return builder;
+      })
+      .distinct();
 
     return points;
   },
@@ -38,9 +43,10 @@ export default {
 
       const relationship: PointItems[] = items.map((i) => ({ point_id: insert[0].id, item_id: i }));
       await trx<PointItems>('point_items').insert(relationship);
-
+      await trx.commit();
       return insert[0];
     } catch (err) {
+      trx.rollback();
       logger.error(err.message, { date: new Date(), component: 'point', action: 'savePoint' });
       return { status: err.level || 'ERROR', message: err.message };
     }

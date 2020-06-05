@@ -16,8 +16,20 @@ export async function show(req: Request, res: Response): Promise<Response> {
 }
 
 export async function index(req: Request, res: Response): Promise<Response> {
-  const { query } = req;
-  const selectedPoints = await pointDAL.selectWithQuery(query);
+  const { items, uf, city } = req.query;
+  const parsedItems = items && `${items}`.split(',').map((i) => `${Number(i)}`);
+
+  const parsedQuery = {
+    ...(uf && { uf }),
+    ...(city && { city }),
+    ...(parsedItems && { item_id: parsedItems }),
+  };
+
+  if (Object.keys(parsedQuery).length === 0) {
+    return res.status(400).json({ error: 'Invalid search parameters' });
+  }
+
+  const selectedPoints = await pointDAL.selectWithQuery(parsedQuery);
 
   return res.json(selectedPoints);
 }
