@@ -12,5 +12,6 @@ routes.get('/', (req, res) => {
 routes.use(itemsAPI);
 routes.use(pointAPI);
 routes.use('/assets', express.static(resolve(__dirname, '../assets/')));
+routes.use('/uploads', express.static(resolve(__dirname, '../uploads/')));
 
 export default routes;

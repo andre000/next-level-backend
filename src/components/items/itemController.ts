@@ -6,7 +6,7 @@ export async function index(req: Request, res: Response): Promise<Response> {
   const serializedItems = items.map((i) => ({
     id: i.id,
     title: i.title,
-    image: `http://localhost:3333/assets/${i.image}`,
+    image: `http://192.168.0.105:3333/assets/${i.image}`,
   }));
 
   return res.json(serializedItems);

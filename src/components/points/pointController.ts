@@ -2,7 +2,13 @@ import { Request, Response } from 'express';
 import pointDAL from './pointDAL';
 
 export async function create(req: Request, res: Response): Promise<Response> {
-  const points: Point = req.body;
+  const points: Point = {
+    ...req.body,
+    image: req.file.filename,
+    items: req.body.items
+      .split(',')
+      .map((i) => Number(i.trim())),
+  };
 
   const insertedPoint = await pointDAL.insertOne(points);
   return res.json(insertedPoint);
@@ -18,7 +24,12 @@ export async function show(req: Request, res: Response): Promise<Response> {
       .json(<ComponentErrorMessage>{ message: 'Ponto não encontrado!', status: 'ERROR' });
   }
 
-  return res.json(selectedPoint);
+  const serializedPoint = {
+    ...selectedPoint,
+    image: selectedPoint.image.match(/^http/) ? selectedPoint.image : `http://192.168.0.105:3333/uploads/${selectedPoint.image}`,
+  };
+
+  return res.json(serializedPoint);
 }
 
 export async function index(req: Request, res: Response): Promise<Response> {
@@ -38,6 +49,10 @@ export async function index(req: Request, res: Response): Promise<Response> {
   }
 
   const selectedPoints = await pointDAL.selectWithQuery(parsedQuery);
+  const serializedPoint = selectedPoints.map((p) => ({
+    ...p,
+    image: p.image.match(/^http/) ? p.image : `http://192.168.0.105:3333/uploads/${p.image}`,
+  }));
 
-  return res.json(selectedPoints);
+  return res.json(serializedPoint);
 }
